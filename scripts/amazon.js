@@ -1,30 +1,30 @@
 let productsHTML = '';
 
 products.forEach((product) => {
-    productsHTML += `<div class="product-container">
-          <div class="product-image-container">
-            <img class="product-image"
-              src="${product.image}">
-          </div>
-
-          <div class="product-name limit-text-to-2-lines">
+  productsHTML += `<div class="product-container">
+  <div class="product-image-container">
+  <img class="product-image"
+  src="${product.image}">
+  </div>
+  
+  <div class="product-name limit-text-to-2-lines">
             ${product.name}
           </div>
 
           <div class="product-rating-container">
-            <img class="product-rating-stars"
-              src="images/ratings/rating-${product.rating.stars * 10}.png">
-            <div class="product-rating-count link-primary">
-              ${product.rating.count}
-            </div>
+          <img class="product-rating-stars"
+          src="images/ratings/rating-${product.rating.stars * 10}.png">
+          <div class="product-rating-count link-primary">
+          ${product.rating.count}
           </div>
-
+          </div>
+          
           <div class="product-price">
-            ${(product.priceCents / 100)}
+          ${(product.priceCents / 100)}
           </div>
-
+          
           <div class="product-quantity-container">
-            <select class="js-quantity-selector-${product.id}">
+          <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -36,38 +36,38 @@ products.forEach((product) => {
               <option value="9">9</option>
               <option value="10">10</option>
             </select>
-          </div>
+            </div>
+            
+            <div class="product-spacer"></div>
 
-          <div class="product-spacer"></div>
-
-          <div class="added-to-cart">
+            <div class="added-to-cart js-added-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
 
           <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
-            Add to Cart
+          Add to Cart
           </button>
-        </div>`;
+          </div>`;
 });
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  let timeoutId;
   button.addEventListener('click', () => {
-    const {productId} = button.dataset;
-    
-    const selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
+    const { productId } = button.dataset;
 
+    const selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
     const quantity = Number(selectElement.value);
     
     let matchingItem;
-
+    
     cart.forEach((item) => {
-      if(productId === item.productId)
+      if (productId === item.productId)
         matchingItem = item;
     });
-
+    
     if (matchingItem) {
       matchingItem.quantity += quantity;
     }
@@ -77,11 +77,18 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
         quantity
       });
     }
-
+    
     let cartQuantity = 0;
-
+    
     cart.forEach((item) => cartQuantity += item.quantity);
-
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+    
+    const addedMessageElement = document.querySelector(`.js-added-${productId}`);
+    addedMessageElement.classList.add('show-added-to-cart');
+ 
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      addedMessageElement.classList.remove('show-added-to-cart');
+    }, 2000);
   });
 });
