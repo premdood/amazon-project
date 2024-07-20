@@ -110,10 +110,11 @@ export function renderOrderSummary() {
   });
 
   document.querySelectorAll('.js-save-link').forEach((link) => {
+    const productId = link.dataset.productId;
     link.addEventListener('click', () => {
-      const productId = link.dataset.productId;
       const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
       const newQuantity = Number(quantityInput.value);
+
       if (newQuantity < 0 || newQuantity >= 1000) {
         alert('Quantity must be at least 0 and less than 1000');
         return;
@@ -126,6 +127,14 @@ export function renderOrderSummary() {
       const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
       quantityLabel.innerHTML = newQuantity;
       updateCartQuantity();
+
+    });
+
+    const updateQuantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+    updateQuantityInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        link.click();
+      }
     });
   });
 
