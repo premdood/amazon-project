@@ -8,13 +8,10 @@ import { cart } from '../data/cart-class.js';
 
 async function loadPage() {
   try {
-    await loadProductsFetch();
-    
-    await new Promise((resolve, reject) => {
-      cart.loadCart(() => {
-        resolve('value3');
-      });
-    });
+    await Promise.all([
+      loadProductsFetch(),
+      cart.loadCartFetch()
+    ])
 
   } catch {
     console.log('Unexpected error. Please try again later');
