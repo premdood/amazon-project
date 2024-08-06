@@ -32,7 +32,7 @@ class Cart {
 
   addToCart(productId) {
     const selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
-    const quantity = Number(selectElement.value);
+    const quantity = selectElement ? Number(selectElement.value) : 1;
 
     let matchingItem;
 

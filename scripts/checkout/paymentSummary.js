@@ -71,6 +71,10 @@ export function renderPaymentSummary() {
   document.querySelector('.js-place-order')
     .addEventListener('click', async () => {
       try {
+        if (cart.cartItems.length === 0) {
+          throw new Error('Please select at least 1 item to proceed');
+        }
+
         const response = await fetch('https://supersimplebackend.dev/orders', {
           method: 'POST',
           headers: {
@@ -83,11 +87,10 @@ export function renderPaymentSummary() {
   
         const order = await response.json();
         addOrder(order);
+        window.location.href = 'orders.html';
 
       } catch(error) {
-        console.log('Unexpected error. Please try again later');
+        alert(error);
       }
-
-      window.location.href = 'orders.html';
   });
 }
