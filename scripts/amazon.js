@@ -12,7 +12,15 @@ async function renderProductsGrid() {
   let filteredProducts = products;
   if (search) {
     filteredProducts = products.filter((product) => {
-      return product.name.includes(search);
+      let matchingKeyword = false;
+
+      product.keywords.forEach(keyword => {
+        if (keyword.toLowerCase().includes(search.toLowerCase())) {
+          matchingKeyword = true;
+        }
+      });
+
+      return matchingKeyword || product.name.toLowerCase().includes(search.toLowerCase());
     });
   }
 
@@ -61,8 +69,9 @@ async function renderProductsGrid() {
         Added
       </div>
   
-      <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
-      Add to Cart
+      <button class="add-to-cart-button button-primary js-add-to-cart"
+      data-product-id="${product.id}">
+        Add to Cart
       </button>
       </div>
     `;
