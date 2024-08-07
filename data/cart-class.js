@@ -126,6 +126,11 @@ class Cart {
     console.log(text);
     return text;
   }
+
+  resetCart() {
+    cart.cartItems = [];
+    this.saveToStorage();
+  }
 }
 
 export const cart = new Cart('cart-oop');

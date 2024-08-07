@@ -87,6 +87,7 @@ export function renderPaymentSummary() {
   
         const order = await response.json();
         addOrder(order);
+        cart.resetCart();
         window.location.href = 'orders.html';
 
       } catch(error) {
