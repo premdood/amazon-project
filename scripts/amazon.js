@@ -1,12 +1,22 @@
 import { cart } from '../data/cart-class.js';
-import { products, loadProducts } from '../data/products.js';
+import { products, loadProductsFetch } from '../data/products.js';
 
 let productsHTML = '';
 
-loadProducts(renderProductsGrid);
+async function renderProductsGrid() {
+  await loadProductsFetch();
+  
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get('search');
 
-function renderProductsGrid() {
-  products.forEach((product) => {
+  let filteredProducts = products;
+  if (search) {
+    filteredProducts = products.filter((product) => {
+      return product.name.includes(search);
+    });
+  }
+
+  filteredProducts.forEach((product) => {
     productsHTML += `<div class="product-container">
       <div class="product-image-container">
         <img class="product-image" src="${product.image}">
@@ -52,33 +62,52 @@ function renderProductsGrid() {
       </div>
   
       <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
-        Add to Cart
+      Add to Cart
       </button>
-    </div>`;
+      </div>
+    `;
   });
-  
+
   document.querySelector('.js-products-grid').innerHTML = productsHTML;
-  
-  function updateCartQuantity() {
-    document.querySelector('.js-cart-quantity').innerHTML = cart.calculateCartQuantity() || null;
-  }
-  
+
   updateCartQuantity();
-  
+
   document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     let timeoutId;
     button.addEventListener('click', () => {
       const { productId } = button.dataset;
       cart.addToCart(productId);
       updateCartQuantity();
-  
+
       const addedMessageElement = document.querySelector(`.js-added-${productId}`);
       addedMessageElement.classList.add('show-added-to-cart');
-  
+
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         addedMessageElement.classList.remove('show-added-to-cart');
       }, 2000);
     });
   });
+
+  document.querySelector('.js-search-button')
+    .addEventListener('click', () => {
+      const searchElement = document.querySelector('.js-search-bar');
+      const searchValue = searchElement.value;
+      searchElement.value = '';
+      window.location.href = `amazon.html?search=${searchValue}`;
+    });
+
+  document.querySelector('.js-search-bar')
+    .addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        document.querySelector('.js-search-button').click();
+      }
+    });
+}
+
+renderProductsGrid();
+
+function updateCartQuantity() {
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cart.calculateCartQuantity() || null;
 }
