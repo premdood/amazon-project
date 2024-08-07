@@ -1,5 +1,6 @@
 import { cart } from '../data/cart-class.js';
 import { products, loadProductsFetch } from '../data/products.js';
+import { updateCartQuantityOnPage } from './utils/cartQuantity.js'
 
 let productsHTML = '';
 
@@ -79,14 +80,14 @@ async function renderProductsGrid() {
 
   document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-  updateCartQuantity();
+  updateCartQuantityOnPage();
 
   document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     let timeoutId;
     button.addEventListener('click', () => {
       const { productId } = button.dataset;
       cart.addToCart(productId);
-      updateCartQuantity();
+      updateCartQuantityOnPage();
 
       const addedMessageElement = document.querySelector(`.js-added-${productId}`);
       addedMessageElement.classList.add('show-added-to-cart');
@@ -115,8 +116,3 @@ async function renderProductsGrid() {
 }
 
 renderProductsGrid();
-
-function updateCartQuantity() {
-  document.querySelector('.js-cart-quantity')
-    .innerHTML = cart.calculateCartQuantity() || null;
-}
