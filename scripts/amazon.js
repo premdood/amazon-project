@@ -1,6 +1,6 @@
-import { cart } from '../data/cart-class.js';
+import { cart } from '../data/cart.js';
 import { products, loadProductsFetch } from '../data/products.js';
-import { updateCartQuantityOnPage } from './utils/cartQuantity.js'
+import { updateCartQuantityOnPage } from './utils/cartQuantity.js';
 
 let productsHTML = '';
 

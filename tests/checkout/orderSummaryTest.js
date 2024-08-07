@@ -1,5 +1,5 @@
 import { renderOrderSummary } from '../../scripts/checkout/orderSummary.js';
-import { cart } from '../../data/cart-class.js';
+import { cart } from '../../data/cart.js';
 import { loadProductsFetch } from '../../data/products.js';
 
 describe('test suite: renderOrderSummary', () => {

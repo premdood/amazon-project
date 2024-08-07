@@ -2,7 +2,7 @@ import { orders } from '../data/orders.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { formatCurrency } from '../scripts/utils/money.js'
 import { getProduct, loadProductsFetch } from '../data/products.js'
-import { cart } from '../data/cart-class.js';
+import { cart } from '../data/cart.js';
 import { updateCartQuantityOnPage } from './utils/cartQuantity.js';
 
 updateCartQuantityOnPage();

@@ -1,4 +1,4 @@
-import { cart } from '../../data/cart-class.js';
+import { cart } from '../../data/cart.js';
 
 describe('test suite: addToCart', () => {
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('test suite: addToCart', () => {
     cart.addToCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
     expect(cart.cartItems.length).toEqual(1);
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    expect(localStorage.setItem).toHaveBeenCalledWith('cart-oop', JSON.stringify([{
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([{
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       quantity: 2,
       deliveryOptionId: '1'
@@ -34,7 +34,7 @@ describe('test suite: addToCart', () => {
     cart.addToCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
     expect(cart.cartItems.length).toEqual(1);
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    expect(localStorage.setItem).toHaveBeenCalledWith('cart-oop', JSON.stringify([{
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([{
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       quantity: 1,
       deliveryOptionId: '1'
@@ -60,7 +60,7 @@ describe('test suite: removeFromCart', () => {
     cart.removeFromCart(productId1);
     expect(cart.cartItems.length).toEqual(0);
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    expect(localStorage.setItem).toHaveBeenCalledWith('cart-oop', JSON.stringify([]));
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([]));
   });
 
   it('remove a productId that is not in the cart', () => {
@@ -69,7 +69,7 @@ describe('test suite: removeFromCart', () => {
     expect(cart.cartItems[0].productId).toEqual(productId1);
     expect(cart.cartItems[0].quantity).toEqual(1);
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    expect(localStorage.setItem).toHaveBeenCalledWith('cart-oop', JSON.stringify([{
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([{
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       quantity: 1,
       deliveryOptionId: '1'
@@ -93,7 +93,7 @@ describe('test suite: updateDeliveryOption', () => {
     expect(cart.cartItems[0].quantity).toEqual(1);
     expect(cart.cartItems[0].deliveryOptionId).toEqual('3');
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    expect(localStorage.setItem).toHaveBeenCalledWith('cart-oop', JSON.stringify([{
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([{
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       quantity: 1,
       deliveryOptionId: '3'
