@@ -7,11 +7,11 @@ updateCartQuantityOnPage();
 
 async function loadPage() {
   await loadProductsFetch();
-  
+
   const url = new URL(window.location.href);
   const orderId = url.searchParams.get('orderId');
   const productId = url.searchParams.get('productId');
-  
+
   const order = getOrder(orderId);
   const product = getProduct(productId);
 
@@ -26,7 +26,8 @@ async function loadPage() {
   const today = dayjs();
   const orderTime = dayjs(order.orderTime);
   const deliveryTime = dayjs(productDetails.estimatedDeliveryTime);
-  const percentProgress = ((today - orderTime) / (deliveryTime - orderTime)) * 100;
+  const percentProgress =
+    ((today - orderTime) / (deliveryTime - orderTime)) * 100;
 
   const deliveryMessage = today < deliveryTime ? 'Arriving on' : 'Delivered on';
 
@@ -36,7 +37,9 @@ async function loadPage() {
     </a>
 
     <div class="delivery-date">
-      ${deliveryMessage} ${dayjs(productDetails.estimatedDeliveryTime).format('dddd, MMMM D')}
+      ${deliveryMessage} ${dayjs(productDetails.estimatedDeliveryTime).format(
+    'dddd, MMMM D'
+  )}
     </div>
 
     <div class="product-info">
@@ -50,13 +53,19 @@ async function loadPage() {
     <img class="product-image" src="${product.image}">
 
     <div class="progress-labels-container">
-      <div class="progress-label ${percentProgress <= 49 ? 'current-status' : ''}">
+      <div class="progress-label ${
+        percentProgress <= 49 ? 'current-status' : ''
+      }">
         Preparing
       </div>
-      <div class="progress-label ${49 <= percentProgress && percentProgress <= 99 ? 'current-status' : ''}">
+      <div class="progress-label ${
+        49 <= percentProgress && percentProgress <= 99 ? 'current-status' : ''
+      }">
         Shipped
       </div>
-      <div class="progress-label ${percentProgress >= 100 ? 'current-status' : ''}">
+      <div class="progress-label ${
+        percentProgress >= 100 ? 'current-status' : ''
+      }">
         Delivered
       </div>
     </div>

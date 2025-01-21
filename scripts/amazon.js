@@ -6,13 +6,13 @@ let productsHTML = '';
 
 async function renderProductsGrid() {
   await loadProductsFetch();
-  
+
   const url = new URL(window.location.href);
   const search = url.searchParams.get('search');
 
   let filteredProducts = products;
   if (search) {
-    filteredProducts = products.filter((product) => {
+    filteredProducts = products.filter(product => {
       let matchingKeyword = false;
 
       product.keywords.forEach(keyword => {
@@ -21,11 +21,14 @@ async function renderProductsGrid() {
         }
       });
 
-      return matchingKeyword || product.name.toLowerCase().includes(search.toLowerCase());
+      return (
+        matchingKeyword ||
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
     });
   }
 
-  filteredProducts.forEach((product) => {
+  filteredProducts.forEach(product => {
     productsHTML += `<div class="product-container">
       <div class="product-image-container">
         <img class="product-image" src="${product.image}">
@@ -82,14 +85,16 @@ async function renderProductsGrid() {
 
   updateCartQuantityOnPage();
 
-  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  document.querySelectorAll('.js-add-to-cart').forEach(button => {
     let timeoutId;
     button.addEventListener('click', () => {
       const { productId } = button.dataset;
       cart.addToCart(productId);
       updateCartQuantityOnPage();
 
-      const addedMessageElement = document.querySelector(`.js-added-${productId}`);
+      const addedMessageElement = document.querySelector(
+        `.js-added-${productId}`
+      );
       addedMessageElement.classList.add('show-added-to-cart');
 
       clearTimeout(timeoutId);
@@ -99,16 +104,16 @@ async function renderProductsGrid() {
     });
   });
 
-  document.querySelector('.js-search-button')
-    .addEventListener('click', () => {
-      const searchElement = document.querySelector('.js-search-bar');
-      const searchValue = searchElement.value;
-      searchElement.value = '';
-      window.location.href = `amazon.html?search=${searchValue}`;
-    });
+  document.querySelector('.js-search-button').addEventListener('click', () => {
+    const searchElement = document.querySelector('.js-search-bar');
+    const searchValue = searchElement.value;
+    searchElement.value = '';
+    window.location.href = `amazon.html?search=${searchValue}`;
+  });
 
-  document.querySelector('.js-search-bar')
-    .addEventListener('keydown', (event) => {
+  document
+    .querySelector('.js-search-bar')
+    .addEventListener('keydown', event => {
       if (event.key === 'Enter') {
         document.querySelector('.js-search-button').click();
       }

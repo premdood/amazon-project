@@ -3,7 +3,7 @@ import { formatCurrency } from '../scripts/utils/money.js';
 export function getProduct(productId) {
   let matchingProduct;
 
-  products.forEach((product) => {
+  products.forEach(product => {
     if (product.id === productId) {
       matchingProduct = product;
     }
@@ -85,24 +85,25 @@ export class Appliance extends Product {
 export let products = [];
 
 export function loadProductsFetch() {
-  const promise = fetch(
-    'https://supersimplebackend.dev/products'
-  ).then((response) => {
-    return response.json();
-  }).then((productsData) => {
-    products = productsData.map((productDetails) => {
-      if (productDetails.type === 'appliance') {
-        return new Appliance(productDetails);
-      }
-      if (productDetails.type === 'clothing') {
-        return new Clothing(productDetails);
-      }
-      return new Product(productDetails);
+  const promise = fetch('https://supersimplebackend.dev/products')
+    .then(response => {
+      return response.json();
+    })
+    .then(productsData => {
+      products = productsData.map(productDetails => {
+        if (productDetails.type === 'appliance') {
+          return new Appliance(productDetails);
+        }
+        if (productDetails.type === 'clothing') {
+          return new Clothing(productDetails);
+        }
+        return new Product(productDetails);
+      });
+      console.log('load products');
+    })
+    .catch(() => {
+      console.log('Unexpected error. Please try again later');
     });
-    console.log('load products');
-  }).catch(() => {
-    console.log('Unexpected error. Please try again later');
-  });
 
   return promise;
 }

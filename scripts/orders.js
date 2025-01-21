@@ -1,7 +1,7 @@
 import { orders } from '../data/orders.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { formatCurrency } from '../scripts/utils/money.js'
-import { getProduct, loadProductsFetch } from '../data/products.js'
+import { formatCurrency } from '../scripts/utils/money.js';
+import { getProduct, loadProductsFetch } from '../data/products.js';
 import { cart } from '../data/cart.js';
 import { updateCartQuantityOnPage } from './utils/cartQuantity.js';
 
@@ -9,10 +9,10 @@ updateCartQuantityOnPage();
 
 async function loadPage() {
   await loadProductsFetch();
-  
+
   let ordersHTML = '';
 
-  orders.forEach((order) => {
+  orders.forEach(order => {
     const orderTimeString = dayjs(order.orderTime).format('MMMM D');
 
     ordersHTML += `
@@ -45,7 +45,7 @@ async function loadPage() {
 
   document.querySelector('.js-orders-grid').innerHTML = ordersHTML;
 
-  document.querySelectorAll('.js-buy-again').forEach((button) => {
+  document.querySelectorAll('.js-buy-again').forEach(button => {
     let timeoutId;
     button.addEventListener('click', () => {
       cart.addToCart(button.dataset.productId);
@@ -62,13 +62,12 @@ async function loadPage() {
       }, 1000);
     });
   });
-    
 }
 
 function productsListHTML(order) {
   let productsHTML = '';
 
-  order.products.forEach((productDetails) => {
+  order.products.forEach(productDetails => {
     const product = getProduct(productDetails.productId);
 
     productsHTML += `
@@ -81,12 +80,16 @@ function productsListHTML(order) {
           ${product.name}
         </div>
         <div class="product-delivery-date">
-          Arriving on: ${dayjs(productDetails.estimatedDeliveryTime).format('MMMM D')}
+          Arriving on: ${dayjs(productDetails.estimatedDeliveryTime).format(
+            'MMMM D'
+          )}
         </div>
         <div class="product-quantity">
           Quantity: ${product.quantity}
         </div>
-        <button class="buy-again-button button-primary js-buy-again" data-product-id="${product.id}">
+        <button class="buy-again-button button-primary js-buy-again" data-product-id="${
+          product.id
+        }">
           <img class="buy-again-icon" src="images/icons/buy-again.png">
           <span class="buy-again-message">Buy it again</span>
         </button>

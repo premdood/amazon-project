@@ -6,11 +6,7 @@ import { cart } from '../data/cart.js';
 
 async function loadPage() {
   try {
-    await Promise.all([
-      loadProductsFetch(),
-      cart.loadCartFetch()
-    ])
-
+    await Promise.all([loadProductsFetch(), cart.loadCartFetch()]);
   } catch {
     console.log('Unexpected error. Please try again later');
   }

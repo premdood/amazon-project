@@ -22,24 +22,24 @@ class Cart {
   }
 
   addToCart(productId) {
-    const selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
+    const selectElement = document.querySelector(
+      `.js-quantity-selector-${productId}`
+    );
     const quantity = selectElement ? Number(selectElement.value) : 1;
 
     let matchingItem;
 
-    this.cartItems.forEach((cartItem) => {
-      if (productId === cartItem.productId)
-        matchingItem = cartItem;
+    this.cartItems.forEach(cartItem => {
+      if (productId === cartItem.productId) matchingItem = cartItem;
     });
 
     if (matchingItem) {
       matchingItem.quantity += quantity;
-    }
-    else {
+    } else {
       this.cartItems.push({
         productId,
         quantity,
-        deliveryOptionId: '1'
+        deliveryOptionId: '1',
       });
     }
 
@@ -49,7 +49,7 @@ class Cart {
   removeFromCart(productId) {
     const newCart = [];
 
-    this.cartItems.forEach((cartItem) => {
+    this.cartItems.forEach(cartItem => {
       if (cartItem.productId !== productId) {
         newCart.push(cartItem);
       }
@@ -62,14 +62,14 @@ class Cart {
 
   calculateCartQuantity() {
     let cartQuantity = 0;
-    this.cartItems.forEach((cartItem) => cartQuantity += cartItem.quantity);
+    this.cartItems.forEach(cartItem => (cartQuantity += cartItem.quantity));
     return cartQuantity;
   }
 
   updateQuantity(productId, newQuantity) {
     let matchingItem;
 
-    this.cartItems.forEach((cartItem) => {
+    this.cartItems.forEach(cartItem => {
       if (cartItem.productId === productId) {
         matchingItem = cartItem;
       }
@@ -86,9 +86,8 @@ class Cart {
 
     let matchingItem;
 
-    this.cartItems.forEach((cartItem) => {
-      if (productId === cartItem.productId)
-        matchingItem = cartItem;
+    this.cartItems.forEach(cartItem => {
+      if (productId === cartItem.productId) matchingItem = cartItem;
     });
 
     if (!matchingItem) {
